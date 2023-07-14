@@ -1,32 +1,33 @@
-<template>
-  <v-navigation-drawer v-model="drawer" app>
-    <v-img
-      height="140"
-      class="pa-4"
-      src="https://preview.pixlr.com/images/800wm/1439/2/1439104804.jpg"
-    >
+<template >
+  <v-navigation-drawer v-model="drawer" app style="background-color: rgb(231, 231, 227);">
+    <v-img>
       <div class="text-center">
-        <v-avatar class="mb-4" color="grey darken-1" size="64">
+        <v-avatar class="mb-3" color="grey darken-1" size="85" >
           <v-img
-            aspect-ratio="30"
-            src="https://yt3.ggpht.com/esazPAO03T0f0vKdByJvkDy6MSwjyG5f-c_2S2CJapszQ3KPQyZarpoqvgv0Us0atUbILytj=s88-c-k-c0x00ffffff-no-rj"
+            aspect-ratio="50"
+            src="https://cdn.discordapp.com/attachments/1036997845498220614/1062024344743710793/309496074_461585429329899_1581586192334159311_n.png"
           />
         </v-avatar>
-        <h2 class="white--text">Web Burden</h2>
       </div>
     </v-img>
-    <v-divider></v-divider>
-    <v-list>
-      <v-list-item v-for="[icon, text] in links" :key="icon" link>
-        <v-list-item-icon>
-          <v-icon>{{ icon }}</v-icon>
-        </v-list-item-icon>
 
+    
+    <v-list rounded="xl" v-for="[icon, text, path] in links" :key="icon" >
+      <router-link :to="path" type="a" style="text-decoration: none;">
+      <v-list-item link >
+        
+        <v-list-item-icon>
+          <v-icon class="taghover">{{ icon }}</v-icon>
+        </v-list-item-icon>
+        
         <v-list-item-content>
-          <v-list-item-title>{{ text }}</v-list-item-title>
+          <v-list-item-title class="taghover">{{ text }}</v-list-item-title>
         </v-list-item-content>
+        
       </v-list-item>
+    </router-link>
     </v-list>
+    
   </v-navigation-drawer>
 </template>
 
@@ -37,15 +38,27 @@ export default {
   data() {
     return {
       links: [
-        ["mdi-microsoft-windows", "Dashboard"],
-        ["mdi-account", "Profile"],
-        ["mdi-clipboard-list-outline", "Products"],
-        ["mdi-card-account-details-outline", "Orders"],
-        ["mdi-cog", "System Setting"],
+        ["mdi-microsoft-windows", "Dashboard", "/"],
+        ["mdi-account", "manage","/employee"],
+        ["mdi-clipboard-list-outline", "Ingredients","/employee"],
+        ["mdi-clipboard-list-outline", "Products","/employee"],
+        ["mdi-card-account-details-outline", "Orders","/employee"],
+        ["mdi-clipboard-list-outline", "Reports","/employee"],
+        ["mdi-cog", "System Setting","/employee"],
       ],
     };
   },
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+*{
+  text-decoration: none;
+  
+}
+.taghover{
+    &:hover{
+      text-decoration: none !important;
+    }
+  }
+</style>

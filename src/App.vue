@@ -20,6 +20,8 @@ export default {
     cards: ["Today", "Yesterday"],
     drawer: null,
   }),
-  methods: {},
+  methods: {
+    
+  },
 };
 </script>

@@ -7,8 +7,13 @@ const routes = [
   {
     path: '/',
     name: 'dashboard',
-    component: () => import('./../views/Dashboard')
+    component: () => import('../views/Dashboard')
   },
+  {
+    path: '/employee',
+    name: 'employee',
+    component: () => import('../views/Employee')
+  }
 ]
 
 const router = new VueRouter({
