@@ -39,12 +39,12 @@ export default {
     return {
       links: [
         ["mdi-microsoft-windows", "Dashboard", "/"],
-        ["mdi-account", "manage","/employee"],
-        ["mdi-clipboard-list-outline", "Ingredients","/employee"],
-        ["mdi-clipboard-list-outline", "Products","/employee"],
-        ["mdi-card-account-details-outline", "Orders","/employee"],
-        ["mdi-clipboard-list-outline", "Reports","/employee"],
-        ["mdi-cog", "System Setting","/employee"],
+        ["mdi-account", "Users","/user"],
+        ["mdi-clipboard-list-outline", "Products","/product"],
+        ["mdi-clipboard-list-outline", "Products","/"],
+        ["mdi-card-account-details-outline", "Orders","/"],
+        ["mdi-clipboard-list-outline", "Reports","/"],
+        ["mdi-cog", "System Setting","/"],
       ],
     };
   },

@@ -3,17 +3,9 @@
     <v-app-bar-nav-icon @click="$emit('drawerEvent')"></v-app-bar-nav-icon>
     <v-spacer />
     <v-col lg="6" cols="12">
-      <v-form>
-        <v-text-field
-          class="p-0 m-0 mt-6"
-          full-width
-          dense
-          append-icon="mdi-magnify"
-          outlined
-          rounded
-          placeholder="Search"
-        />
-      </v-form>
+
+
+
     </v-col>
     <v-spacer />
     <v-menu offset-y>
@@ -83,6 +75,8 @@
           </v-list-item-content>
         </v-list-item>
         <v-divider />
+
+
         <v-list-item link v-for="(menu, i) in menus" :key="i">
           <v-list-item-icon>
             <v-icon>{{ menu.icon }}</v-icon>
@@ -91,6 +85,18 @@
             {{ menu.title }}
           </v-list-item-title>
         </v-list-item>
+
+    
+        <v-list-item @click="Logout">
+          <v-list-item-icon>
+            <v-icon> mdi-logout </v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            Logout
+          </v-list-item-title>
+        </v-list-item>
+
+
       </v-list>
     </v-menu>
   </v-app-bar>
@@ -105,7 +111,7 @@ export default {
         { title: "Profile", icon: "mdi-account" },
         { title: "Change Password", icon: "mdi-key" },
         { title: "Setting", icon: "mdi-cog" },
-        { title: "Logout", icon: "mdi-logout" },
+        { title: "Logout", icon: "mdi-logout"},
       ],
       items: [
         {
@@ -141,8 +147,18 @@ export default {
             '<span class="text--primary">Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
         },
       ],
+
     };
   },
+
+methods: {
+  Logout() {
+      localStorage.clear();
+      // window.location.reload();
+      this.$router.push("/login");
+    },
+}
+
 };
 </script>
 
