@@ -6,7 +6,9 @@
       <b-form @submit.prevent="onSubmit">
         <div class="inputForm">
           <b-input-group>
-            <b-input-group-text><i class="fa-solid fa-user"></i></b-input-group-text>
+            <b-input-group-text
+              ><i class="fa-solid fa-user"></i
+            ></b-input-group-text>
             <b-form-input placeholder="Frist name" v-model="users.firstname" />
             <b-form-input placeholder="Last name" v-model="users.lastname" />
           </b-input-group>
@@ -14,7 +16,9 @@
 
         <div class="inputForm">
           <b-input-group>
-            <b-input-group-text><i class="fa-solid fa-phone"></i></b-input-group-text>
+            <b-input-group-text
+              ><i class="fa-solid fa-phone"></i
+            ></b-input-group-text>
             <b-form-input
               placeholder="Phone(020 xxx...)"
               onkeypress="return event.charCode >= 48 && event.charCode <= 57"
@@ -24,7 +28,9 @@
 
         <div class="inputForm">
           <b-input-group>
-            <b-input-group-text><i class="fa-solid fa-location-dot"></i></b-input-group-text>
+            <b-input-group-text
+              ><i class="fa-solid fa-location-dot"></i
+            ></b-input-group-text>
             <b-form-input placeholder="Village" v-model="users.village" />
             <b-form-input placeholder="District" v-model="users.district" />
           </b-input-group>
@@ -35,7 +41,6 @@
             <b-form-input placeholder="Province" v-model="users.province"
           /></b-input-group>
         </div>
-
 
         <div style="display: flex">
           <p>
@@ -75,8 +80,6 @@
             </td>
           </b-form-group>
         </div>
-
-
 
         <div style="display: flex">
           <p>
@@ -124,18 +127,8 @@
                 >Customer &nbsp; &nbsp;
               </b-form-radio>
             </td>
-
-
           </b-form-group>
         </div>
-
-
-
-
-
-
-
-
 
         <b-form-group label-for="form-image">
           <b-input-group>
@@ -152,7 +145,6 @@
           </b-input-group>
         </b-form-group>
 
-
         <div class="d-flex justify-content-center">
           <b-button ref="submit" type="submit" :disabled="busy"
             >Submit</b-button
@@ -160,10 +152,7 @@
         </div>
 
         <!-- $route.params.id -->
-
       </b-form>
-
-
     </div>
   </div>
 </template>
@@ -174,8 +163,7 @@ export default {
   name: "EmployeeCreate",
   data() {
     return {
-      
-      userId : this.$route.params.id,
+      userId: this.$route.params.id,
       getByid: {},
       result: {},
       users: {
@@ -189,91 +177,74 @@ export default {
         phone_number: "",
         profile_img: null,
         password: "",
-        password_confirmation:""
+        password_confirmation: "",
       },
     };
   },
 
-
-
-
-  methods: { 
+  methods: {
     save() {
       if (this.users !== null) {
         this.saveData();
       }
     },
-  onSubmit(even) {
-    even.preventDefault();
-    console.log("hello");
-    this.save()
+    onSubmit(even) {
+      even.preventDefault();
+      console.log("hello");
+      this.save();
+    },
+
+    saveData() {
+      const formData = new FormData();
+      formData.append("_method", "put");
+      formData.append("firstname", this.users.firstname);
+      formData.append("lastname", this.users.lastname);
+      formData.append("gender", this.users.gender);
+      formData.append("roles", this.users.roles);
+      formData.append("village", this.users.roles);
+      formData.append("district", this.users.roles);
+      formData.append("province", this.users.roles);
+      formData.append("phone_number", this.users.phone_number);
+      // formData.append('profile_img', this.users.profile_img)
+
+      if (typeof this.users.profile_img !== "string") {
+        formData.append("profile_img", this.users.profile_img);
+      }
+      const token = localStorage.getItem("token");
+
+      axios
+        .post("http://localhost:8000/api/users/" + this.userId, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            Authorization: "Bearer " + token,
+          },
+        })
+        .then(({ data }) => {
+          alert("saveddddd");
+          // window.location.reload();
+          this.$router.push({ path: "/user" });
+          console.log(data);
+        });
+    },
   },
 
-  saveData() {
-    const formData = new FormData()
-    formData.append('_method', 'put')
-    formData.append('firstname', this.users.firstname)
-    formData.append('lastname', this.users.lastname)
-    formData.append('gender', this.users.gender)
-    formData.append('roles', this.users.roles)
-    formData.append('village', this.users.roles)
-    formData.append('district', this.users.roles)
-    formData.append('province', this.users.roles)
-    formData.append('phone_number', this.users.phone_number)
-    // formData.append('profile_img', this.users.profile_img)
-
-    if (typeof(this.users.profile_img) !== "string") {
-      formData.append('profile_img', this.users.profile_img)
-
-      
-    }
+  mounted() {
     const token = localStorage.getItem("token");
 
     axios
-      .post("http://localhost:8000/api/users/" + this.userId, formData ,
-       {headers: {
-
-        "Content-Type" : "multipart/form-data",
-        "Accept": "application/json",
-        Authorization: "Bearer " + token
-      }})
-      .then(({ data }) => {
-        alert("saveddddd");
-        // window.location.reload();
-        this.$router.push({ path: '/user' })
-        console.log(data);
-   
+      .get("http://localhost:8000/api/users/selOne/" + this.userId, {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        this.users = res.data;
+        console.log(this.getByid);
       });
   },
-
-
-},
-
-
-mounted() {
-  const token = localStorage.getItem("token");
-
-axios
-  .get("http://localhost:8000/api/users/selOne/" + this.userId  , {
-    headers: {
-      "ngrok-skip-browser-warning": true,
-      Authorization: "Bearer " + token
-    },
-  })
-  .then((res) => {
-    this.users = res.data;
-    console.log(this.getByid)
-  });
-
-}
-
-  
-
 };
-
-
-
-
 </script>
 
 <style>
