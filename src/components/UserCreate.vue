@@ -6,16 +6,20 @@
       <b-form @submit.prevent="onSubmit">
         <div class="inputForm">
           <b-input-group>
-            <b-input-group-text> <i class="fa-solid fa-user"></i> </b-input-group-text>
+            <b-input-group-text>
+              <i class="fa-solid fa-user"></i>
+            </b-input-group-text>
             <b-form-input placeholder="Frist name" v-model="users.firstname" />
-           
+
             <b-form-input placeholder="Last name" v-model="users.lastname" />
           </b-input-group>
         </div>
 
         <div class="inputForm">
           <b-input-group>
-            <b-input-group-text><i class="fa-solid fa-phone"></i></b-input-group-text>
+            <b-input-group-text
+              ><i class="fa-solid fa-phone"></i
+            ></b-input-group-text>
             <b-form-input
               placeholder="Phone(020 xxx...)"
               onkeypress="return event.charCode >= 48 && event.charCode <= 57"
@@ -25,7 +29,9 @@
 
         <div class="inputForm">
           <b-input-group>
-            <b-input-group-text><i class="fa-solid fa-location-dot"></i></b-input-group-text>
+            <b-input-group-text
+              ><i class="fa-solid fa-location-dot"></i
+            ></b-input-group-text>
             <b-form-input placeholder="Village" v-model="users.village" />
             <b-form-input placeholder="District" v-model="users.district" />
           </b-input-group>
@@ -39,7 +45,9 @@
 
         <div class="inputForm">
           <b-input-group>
-            <b-input-group-text><i class="fa-solid fa-lock"></i></b-input-group-text>
+            <b-input-group-text
+              ><i class="fa-solid fa-lock"></i
+            ></b-input-group-text>
             <b-form-input
               type="password"
               placeholder="Password"
@@ -48,10 +56,11 @@
           </b-input-group>
         </div>
 
-
         <div class="inputForm">
           <b-input-group>
-            <b-input-group-text><i class="fa-solid fa-key"></i></b-input-group-text>
+            <b-input-group-text
+              ><i class="fa-solid fa-key"></i
+            ></b-input-group-text>
             <b-form-input
               type="password"
               placeholder="Confirm Password"
@@ -59,8 +68,6 @@
             />
           </b-input-group>
         </div>
-
-
 
         <div style="display: flex">
           <p>
@@ -100,8 +107,6 @@
             </td>
           </b-form-group>
         </div>
-
-
 
         <div style="display: flex">
           <p>
@@ -149,15 +154,8 @@
                 >Customer &nbsp; &nbsp;
               </b-form-radio>
             </td>
-
-
           </b-form-group>
         </div>
-
-
-
-
-
 
         <b-form-group label-for="form-image">
           <b-input-group>
@@ -174,18 +172,12 @@
           </b-input-group>
         </b-form-group>
 
-
         <div class="d-flex justify-content-center">
           <b-button ref="submit" type="submit" :disabled="busy"
             >Submit</b-button
           >
         </div>
-
-
-
       </b-form>
-
-
     </div>
   </div>
 </template>
@@ -193,7 +185,6 @@
 <script>
 import axios from "axios";
 export default {
-  
   name: "EmployeeCreate",
   data() {
     return {
@@ -209,56 +200,42 @@ export default {
         phone_number: "",
         profile_img: null,
         password: "",
-        password_confirmation:""
+        password_confirmation: "",
       },
     };
   },
 
-
-
-
-  methods: { 
+  methods: {
     save() {
       if (this.users !== null) {
         this.saveData();
       }
     },
-  onSubmit(even) {
-    even.preventDefault();
-    console.log("hello");
-    this.save()
+    onSubmit(even) {
+      even.preventDefault();
+      console.log("hello");
+      this.save();
+    },
+
+    saveData() {
+      const formData = new FormData();
+      formData.append("_method", "PATH");
+      formData.append("profile_img", this.users.profile_img);
+
+      axios
+        .post("http://localhost:8000/api/register", this.users, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(({ data }) => {
+          alert("saveddddd");
+          console.log(data);
+          window.location.reload();
+        });
+    },
   },
-
-  saveData() {
-    const formData = new FormData()
-    formData.append('_method', 'PATH')
-    formData.append('profile_img', this.users.profile_img)
-
-    axios
-      .post("http://localhost:8000/api/register", this.users, {headers: {
-
-        "Content-Type" : "multipart/form-data"
-      }})
-      .then(({ data }) => {
-        alert("saveddddd");
-        console.log(data);
-        window.location.reload();
-      });
-  },
-
-
-}
-
-
-
-
-  
-
 };
-
-
-
-
 </script>
 
 <style>
