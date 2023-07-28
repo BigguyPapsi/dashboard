@@ -21,9 +21,13 @@
             hide-details
           ></v-text-field>
         </v-card-title>
-        <v-data-table :headers="headers" :items="getUser" :search="search">
+        <v-data-table
+          v-slot:item.option="{ item }"
+          :headers="headers"
+          :items="getUser"
+          :search="search"
+        >
           <template>
-            <!-- v-slot:item.option="{ item }" -->
             <b-button
               variant="outline-primary"
               @click="viewInfo(item.id)"
