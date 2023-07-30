@@ -80,7 +80,7 @@
             {{ menu.title }}
           </v-list-item-title>
         </v-list-item>
-
+<p>{{ userState.firstname }}</p>
         <v-list-item @click="Logout">
           <v-list-item-icon>
             <v-icon> mdi-logout </v-icon>
@@ -103,6 +103,7 @@ export default {
         { title: "Setting", icon: "mdi-cog" },
         { title: "Logout", icon: "mdi-logout" },
       ],
+      userState: JSON.parse(localStorage.getItem("userState")),
       items: [
         {
           avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",

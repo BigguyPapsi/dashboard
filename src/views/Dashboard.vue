@@ -45,7 +45,7 @@
               <v-timeline-item color="indigo" small>
                 <strong>5 Minuts ago</strong>
                 <div class="text-caption">
-                  You have new order please check this out
+                  income from annie 10,000 kip
                 </div>
               </v-timeline-item>
               <v-timeline-item color="green" small>

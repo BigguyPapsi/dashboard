@@ -16,6 +16,7 @@
               variant="outlined"
               dense
             ></v-text-field>
+
             <v-text-field
               v-model="login.password"
               :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -96,6 +97,7 @@ export default {
             axios.defaults.headers.common["Authorization"] = "Bearer " + token;
             localStorage.setItem("token", token);
             localStorage.setItem("id", id);
+            localStorage.setItem("userState", JSON.stringify(res.data.user));
 
             this.$router.replace("/");
             setTimeout(() => {

@@ -41,9 +41,8 @@ export default {
         ["mdi-microsoft-windows", "Dashboard", "/"],
         ["mdi-account", "Users", "/user"],
         ["mdi-clipboard-list-outline", "Products", "/product"],
-        ["mdi-clipboard-list-outline", "Products", "/"],
-        ["mdi-card-account-details-outline", "Orders", "/"],
-        ["mdi-clipboard-list-outline", "Reports", "/"],
+        ["mdi-card-account-details-outline", "Orders", "/order"],
+        ["mdi-clipboard-list-outline", "Ingredients", "/ingredients"],
         ["mdi-cog", "System Setting", "/"],
       ],
     };

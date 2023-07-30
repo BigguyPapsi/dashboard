@@ -10,7 +10,6 @@
               <i class="fa-solid fa-user"></i>
             </b-input-group-text>
             <b-form-input placeholder="Frist name" v-model="users.firstname" />
-
             <b-form-input placeholder="Last name" v-model="users.lastname" />
           </b-input-group>
         </div>
@@ -120,7 +119,7 @@
                 v-model="users.roles"
                 :aria-describedby="ariaDescribedby"
                 name="some-radios2"
-                value="OWNER"
+                value="Owner"
                 >Owner &nbsp; &nbsp;</b-form-radio
               >
             </td>
@@ -130,7 +129,7 @@
                 v-model="users.roles"
                 :aria-describedby="ariaDescribedby"
                 name="some-radios2"
-                value="EMPLOYEE"
+                value="Employee"
                 >Employee &nbsp; &nbsp;
               </b-form-radio>
             </td>
@@ -140,7 +139,7 @@
                 v-model="users.roles"
                 :aria-describedby="ariaDescribedby"
                 name="some-radios2"
-                value="ADMIN"
+                value="Admin"
                 >Admin &nbsp; &nbsp;
               </b-form-radio>
             </td>
@@ -150,7 +149,7 @@
                 v-model="users.roles"
                 :aria-describedby="ariaDescribedby"
                 name="some-radios2"
-                value="CUSTOMER"
+                value="Customer"
                 >Customer &nbsp; &nbsp;
               </b-form-radio>
             </td>
@@ -223,7 +222,7 @@ export default {
       formData.append("profile_img", this.users.profile_img);
 
       axios
-        .post("http://localhost:8000/api/register", this.users, {
+        .post("http://localhost:8000/api/EmployeeRegister", this.users, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

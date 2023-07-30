@@ -21,13 +21,10 @@
             hide-details
           ></v-text-field>
         </v-card-title>
-        <v-data-table
-          v-slot:item.option="{ item }"
-          :headers="headers"
-          :items="getUser"
-          :search="search"
-        >
-          <template>
+
+
+        <v-data-table :headers="headers" :items="getUser" :search="search">
+          <template v-slot:item.option="{ item }">
             <b-button
               variant="outline-primary"
               @click="viewInfo(item.id)"
@@ -49,6 +46,8 @@
             >
           </template>
         </v-data-table>
+
+       
       </v-card>
 
       <b-modal
@@ -69,11 +68,7 @@
               "
               :src="'http://localhost:8000/storage/' + view.profile_img"
             />
-            <b-img
-              v-else
-              style="width: 140px; height: 140px; object-fit: cover"
-              src="https://icons-for-free.com/iconfiles/png/512/avatar+circle+male+profile+user+icon-1320196710301016992.png"
-            />
+            <b-avatar v-else variant="secondary"  size="140px"></b-avatar>
           </div>
 
           <div

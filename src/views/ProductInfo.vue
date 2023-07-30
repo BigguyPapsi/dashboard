@@ -41,6 +41,8 @@
                     <td class="text-center">{{ item.name }}</td>
 
                     <td class="text-center">
+
+                      
                       <b-button
                         v-b-modal.modal-1
                         variant="outline-warning"
@@ -106,7 +108,7 @@
                     :state="Boolean(users.profile_img)" -->
 
                     <b-form-file
-                      id="form-image1"
+                      id="form-image"
                       v-model="pdType.img"
                       :state="Boolean(pdType.img)"
                       :disabled="busy"
@@ -141,41 +143,49 @@
       </div>
     </div>
 
-    <b-modal id="modal-1" title="BootstrapVue" hide-footer>
-      <b-form @submit.prevent="onUpdate">
-        <b-input-group>
-          <b-input-group-text
-            ><i class="fa-solid fa-mug-hot"></i
-          ></b-input-group-text>
+    <!-- -------------------Modal-------------------- -->
 
-          <b-form-input
-            v-model="selectedPdtype.name"
-            placeholder="Add product type name"
-          />
-        </b-input-group>
+    <b-modal id="modal-1" title="BootstrapVue" hide-footer size="lg">
+      <div class="card" style="margin: 0 200px">
+        <div class="card-body">
+          <b-form @submit.prevent="onUpdate">
+            <b-input-group>
+              <b-input-group-text
+                ><i class="fa-solid fa-mug-hot">
+                  </i>
+                  </b-input-group-text>
 
-        <b-form-group label-for="form-image">
-          <label for="example-input" class="mt-5">Image</label>
-          <b-input-group>
-            <b-input-group-prepend is-text>
-              <b-icon icon="image-fill"></b-icon>
-            </b-input-group-prepend>
+              <b-form-input
+                v-model="selectedPdtype.name"
+                placeholder="Add product type name"
+              />
+            </b-input-group>
 
-            <b-form-file
-              id="form-image"
-              v-model="selectedPdtype.img"
-              :state="Boolean(selectedPdtype.img)"
-              :disabled="busy"
-              accept="image/*"
-            ></b-form-file>
-          </b-input-group>
-        </b-form-group>
+            <b-form-group label-for="form-image">
+              <label for="example-input" class="mt-5"> Image </label>
+              <b-input-group>
+                <b-input-group-prepend is-text>
+                  <b-icon icon="image-fill"></b-icon>
+                </b-input-group-prepend>
 
-        <b-button type="submit"> Update </b-button>
-      </b-form>
+                <b-form-file
+                  id="form-image2"
+                  v-model="selectedPdtype.img"
+                  :state="Boolean(selectedPdtype.img)"
+                  :disabled="busy"
+                  accept="image/*"
+                ></b-form-file>
+              </b-input-group>
+            </b-form-group>
+            <div style="display: flex; justify-content: center">
+              <b-button type="submit" variant="warning"> Update </b-button>
+            </div>
+          </b-form>
+        </div>
+      </div>
     </b-modal>
 
-    <!-- ------------------------------------- -->
+    <!-- ------------------ product form ------------------- -->
 
     <div>
       <v-card>
@@ -197,26 +207,28 @@
             <b-button
               variant="outline-primary"
               @click="viewInfo(item.id)"
-              v-b-modal.modal-scrollable
+              v-b-modal.modal-2
             >
-              <i class="fa-solid fa-expand"></i> View</b-button
+              <i class="fa-solid fa-expand"></i>  View </b-button
             >
             &nbsp;
 
-            <router-link :to="{ name: 'userEdit', params: { id: item.id } }">
+            <router-link :to="{ name: 'productEdit', params: { id: item.id } }">
+
               <b-button variant="outline-warning">
                 <i class="fa-solid fa-pen-to-square"></i> Edit
               </b-button>
+
             </router-link>
             &nbsp;
 
-            <b-button variant="outline-danger" @click="deleteUser(item.id)">
+            <b-button variant="outline-danger" @click="deleteProduct(item.id)">
               <i class="fa-regular fa-trash-can"></i> Delete</b-button
             >
           </template>
 
           <template v-slot:item.popular_icon="{ item }">
-            <div v-if="item.popular == 1">
+            <div v-if="item.popular == 'true' ">
               <i class="fa-solid fa-star"></i>
             </div>
             <div v-else>
@@ -226,6 +238,41 @@
         </v-data-table>
       </v-card>
     </div>
+
+    <!-- ------------------------ product modal -------------------------------- -->
+
+    <b-modal id="modal-2" title="BootstrapVue">
+      <div>
+        <table class="table table-bordered" v-if="view">
+          <tbody>
+            <tr>
+              <td><i class="fa-solid fa-phone"></i>&nbsp; phone:</td>
+              <td>{{ comma(view.price) }}</td>
+            </tr>
+            <tr>
+              <td><i class="fa-solid fa-venus-mars"></i>&nbsp; gender:</td>
+              <td>{{ view.price }}</td>
+            </tr>
+            <tr>
+              <td><i class="fa-solid fa-users"></i>&nbsp; role:</td>
+              <td>{{ view.price }}</td>
+            </tr>
+            <tr>
+              <td><i class="fa-solid fa-map-pin"></i> village:</td>
+              <td>{{ view.price }}</td>
+            </tr>
+            <tr>
+              <td><i class="fa-solid fa-map-pin"></i> district:</td>
+              <td>{{ view.price }}</td>
+            </tr>
+            <tr>
+              <td><i class="fa-solid fa-map-pin"></i> province:</td>
+              <td>{{ view.price }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -238,6 +285,7 @@ Vue.use(VueViewer);
 export default {
   data() {
     return {
+      view: [],
       selectedPdtype: {},
       getProt: [],
       search: "",
@@ -264,7 +312,54 @@ export default {
     };
   },
   methods: {
+
+comma(numb){
+  if (numb == "undefined" || !numb) return ""
+  return numb.toLocaleString()
+},
+
+async deleteProduct(id) {
+      let x = window.confirm("You want to delete the user?");
+
+      if (x) {
+        const token = localStorage.getItem("token");
+        const user = await axios.delete(
+          "http://localhost:8000/api/product/" + id,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+
+        console.log(user);
+        alert("User deleted!");
+        window.location.reload();
+      }
+    },
+
+
+
+    async viewInfo(id) {
+      if (id !== null) {
+        const token = localStorage.getItem("token");
+        const view = await axios.get(
+          "http://localhost:8000/api/product/" + id,
+          {
+            headers: {
+              "ngrok-skip-browser-warning": true,
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+
+        this.view = view.data;
+      }
+    },
+    
     mounted() {
+
+      
       const token = localStorage.getItem("token");
 
       axios
@@ -298,8 +393,8 @@ export default {
 
       // formData.append('profile_img', this.users.profile_img)
 
-      if (typeof this.selectedPdtype.profile_img !== "string") {
-        formData.append("pdType", this.selectedPdtype.img);
+      if (typeof this.selectedPdtype.img !== "string") {
+        formData.append("img", this.selectedPdtype.img);
       }
       const token = localStorage.getItem("token");
 
@@ -317,7 +412,7 @@ export default {
         )
         .then(({ data }) => {
           alert("saveddddd");
-          // window.location.reload();
+          window.location.reload();
           this.$router.push({ path: "/product" });
           console.log(data);
         });
