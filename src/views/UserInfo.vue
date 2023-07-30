@@ -21,6 +21,8 @@
             hide-details
           ></v-text-field>
         </v-card-title>
+
+
         <v-data-table :headers="headers" :items="getUser" :search="search">
           <template v-slot:item.option="{ item }">
             <b-button
@@ -44,6 +46,8 @@
             >
           </template>
         </v-data-table>
+
+       
       </v-card>
 
       <b-modal

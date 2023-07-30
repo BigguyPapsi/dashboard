@@ -10,7 +10,6 @@
               <i class="fa-solid fa-user"></i>
             </b-input-group-text>
             <b-form-input placeholder="Frist name" v-model="users.firstname" />
-
             <b-form-input placeholder="Last name" v-model="users.lastname" />
           </b-input-group>
         </div>

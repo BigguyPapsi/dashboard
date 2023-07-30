@@ -54,9 +54,9 @@ const routes = [
     }
   },
   {
-    path: '/product_tpye/create',
-    name: 'productType',
-    component: () => import('../components/ProductTypeCreate.vue'),
+    path: '/product/edit',
+    name: 'productEdit',
+    component: () => import('../components/ProductEdit.vue'),
     meta: {
       requiresAuth: true // this route requires authentication
     }
@@ -68,6 +68,17 @@ const routes = [
     component: () => import('../components/Login.vue'),
   },
 
+ {
+    path: '/order',
+    name: 'order',
+    component: () => import('../components/Orders.vue'),
+  },
+  {
+    path: '/ingredients',
+    name: 'ingredients',
+    component: () => import('../components/Ingredients.vue'),
+  },
+  
 ]
 
 const router = new VueRouter({

@@ -41,6 +41,8 @@
                     <td class="text-center">{{ item.name }}</td>
 
                     <td class="text-center">
+
+                      
                       <b-button
                         v-b-modal.modal-1
                         variant="outline-warning"
@@ -149,8 +151,9 @@
           <b-form @submit.prevent="onUpdate">
             <b-input-group>
               <b-input-group-text
-                ><i class="fa-solid fa-mug-hot"></i
-              ></b-input-group-text>
+                ><i class="fa-solid fa-mug-hot">
+                  </i>
+                  </b-input-group-text>
 
               <b-form-input
                 v-model="selectedPdtype.name"
@@ -210,20 +213,22 @@
             >
             &nbsp;
 
-            <router-link :to="{ name: 'userEdit', params: { id: item.id } }">
+            <router-link :to="{ name: 'productEdit', params: { id: item.id } }">
+
               <b-button variant="outline-warning">
                 <i class="fa-solid fa-pen-to-square"></i> Edit
               </b-button>
+
             </router-link>
             &nbsp;
 
-            <b-button variant="outline-danger" @click="deleteUser(item.id)">
+            <b-button variant="outline-danger" @click="deleteProduct(item.id)">
               <i class="fa-regular fa-trash-can"></i> Delete</b-button
             >
           </template>
 
           <template v-slot:item.popular_icon="{ item }">
-            <div v-if="item.popular == 1">
+            <div v-if="item.popular == 'true' ">
               <i class="fa-solid fa-star"></i>
             </div>
             <div v-else>
@@ -238,11 +243,11 @@
 
     <b-modal id="modal-2" title="BootstrapVue">
       <div>
-        <table class="table table-bordered">
+        <table class="table table-bordered" v-if="view">
           <tbody>
             <tr>
               <td><i class="fa-solid fa-phone"></i>&nbsp; phone:</td>
-              <td>{{ view.price }}</td>
+              <td>{{ comma(view.price) }}</td>
             </tr>
             <tr>
               <td><i class="fa-solid fa-venus-mars"></i>&nbsp; gender:</td>
@@ -308,11 +313,38 @@ export default {
   },
   methods: {
 
+comma(numb){
+  if (numb == "undefined" || !numb) return ""
+  return numb.toLocaleString()
+},
+
+async deleteProduct(id) {
+      let x = window.confirm("You want to delete the user?");
+
+      if (x) {
+        const token = localStorage.getItem("token");
+        const user = await axios.delete(
+          "http://localhost:8000/api/product/" + id,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+
+        console.log(user);
+        alert("User deleted!");
+        window.location.reload();
+      }
+    },
+
+
+
     async viewInfo(id) {
       if (id !== null) {
         const token = localStorage.getItem("token");
         const view = await axios.get(
-          "http://localhost:8000/api/product/one/" + id,
+          "http://localhost:8000/api/product/" + id,
           {
             headers: {
               "ngrok-skip-browser-warning": true,
@@ -324,7 +356,10 @@ export default {
         this.view = view.data;
       }
     },
+    
     mounted() {
+
+      
       const token = localStorage.getItem("token");
 
       axios

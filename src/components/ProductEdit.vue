@@ -3,8 +3,10 @@
     <div class="card-body">
       <b-form @submit.prevent="onSubmit">
         <b-input-group>
-          <b-input-group-text><i class="fa-solid fa-bowl-food"></i></b-input-group-text>
-          <b-form-input placeholder="Product name" v-model="prod.name" />
+          <b-input-group-text
+            ><i class="fa-solid fa-bowl-food"></i
+          ></b-input-group-text>
+          <b-form-input placeholder="Product name" v-model="products.name" />
         </b-input-group>
 
         <div class="mt-5">
@@ -13,18 +15,18 @@
               ><i class="fa-solid fa-dollar-sign"></i
             ></b-input-group-text>
             <b-form-input
-              v-model="prod.price"
+              v-model="products.price"
               type="number"
               placeholder="Price"
               onkeypress="return event.charCode >= 48 && event.charCode <= 57"
             />
             <b-input-group-append>
-              <b-form-select v-model="prod.product_type_id">
+              <b-form-select v-model="products.product_type_id">
                 <b-form-select-option :value="null"
                   >Select product type</b-form-select-option
                 >
                 <b-form-select-option
-                  v-for="(item, i) in getProduct_type"
+                  v-for="(item, i) in getSelect"
                   :key="i"
                   :value="item.id"
                   >{{ item.name }}</b-form-select-option
@@ -41,8 +43,8 @@
             </b-input-group-prepend>
 
             <b-form-file
-              v-model="prod.img"
-              :state="Boolean(prod.img)"
+              v-model="products.img"
+              :state="Boolean(products.img)"
               id="form-image"
               :disabled="busy"
               accept="image/*"
@@ -54,7 +56,7 @@
           <td><label for="sb-inline">Quantity</label> &nbsp;&nbsp;</td>
           <td>
             <vue-numeric-input
-              v-model="prod.quantity"
+              v-model="products.quantity"
               :min="0"
               :max="999"
               :step="1"
@@ -66,7 +68,7 @@
               <b-input-group-text>
                 <i class="fa-solid fa-bars"></i>
               </b-input-group-text>
-              <b-form-input placeholder="Unit" v-model="prod.unit">
+              <b-form-input placeholder="Unit" v-model="products.unit">
               </b-form-input>
             </b-input-group>
           </td>
@@ -77,7 +79,7 @@
             <b-input-group prepend="Special" class="mb-2 mt-5">
               <b-input-group-append is-text>
                 <b-form-checkbox
-                  v-model="prod.special"
+                  v-model="products.special"
                   name="check-button success "
                   switch
                   class="mr-n2"
@@ -93,7 +95,7 @@
             <b-input-group prepend="Recent" class="mb-2 mt-5">
               <b-input-group-append is-text>
                 <b-form-checkbox
-                  v-model="prod.recent"
+                  v-model="products.recent"
                   name="check-button"
                   switch
                   class="mr-n2"
@@ -109,7 +111,7 @@
             <b-input-group prepend="Popular" class="mb-2 mt-5">
               <b-input-group-append is-text>
                 <b-form-checkbox
-                  v-model="prod.popular"
+                  v-model="products.popular"
                   name="check-button"
                   switch
                   class="mr-n2"
@@ -125,7 +127,7 @@
             <b-form-textarea
               style="height: 150px"
               id="textarea-default"
-              v-model="prod.description"
+              v-model="products.description"
               placeholder="Product description"
             ></b-form-textarea>
           </b-col>
@@ -137,9 +139,9 @@
           >
         </div>
 
-        special <b>(Checked: {{ prod.special }})</b><br />
-        recent <b>(Checked: {{ prod.recent }})</b><br />
-        popular <b>(Checked: {{ prod.popular }})</b>
+        special <b>(Checked: {{ products.special }})</b><br />
+        recent <b>(Checked: {{ products.recent }})</b><br />
+        popular <b>(Checked: {{ products.popular }})</b>
       </b-form>
     </div>
   </div>
@@ -148,17 +150,17 @@
 <script>
 import axios from "axios";
 import VueNumericInput from "vue-numeric-input";
-
 export default {
   components: {
     VueNumericInput,
   },
-
   data() {
     return {
-      getProduct_type: null,
-
-      prod: {
+      getSelect: {},
+      prodId: this.$route.params.id,
+      getProd: {},
+      getByid: {},
+      products: {
         name: "",
         product_type_id: null,
         description: "",
@@ -186,19 +188,34 @@ export default {
 
     saveData() {
       const formData = new FormData();
-      formData.append("_method", "PATH");
-      formData.append("img", this.prod.img);
+
+      formData.append("_method", "put");
+      formData.append("name", this.products.name);
+      formData.append("product_type_id", this.products.product_type_id);
+      formData.append("special", this.products.special);
+      formData.append("recent", this.products.recent);
+      formData.append("description", this.products.description);
+      formData.append("quantity", this.products.quantity);
+      formData.append("unit", this.products.unit);
+      formData.append("price", this.products.price);
+      formData.append("popular", this.products.popular);
+
+      if (typeof this.products.img !== "string") {
+        formData.append("img", this.products.img);
+      }
       const token = localStorage.getItem("token");
+
       axios
-        .post("http://localhost:8000/api/product", this.prod, {
+        .post("http://localhost:8000/api/product/" + this.prodId, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            Accept: "application/json",
             Authorization: "Bearer " + token,
           },
         })
-        .then(({ data }) => {
+        .then(() => {
           alert("saveddddd");
-          console.log(data);
+          // window.location.reload();
           this.$router.push({ path: "/product" });
         });
     },
@@ -206,15 +223,27 @@ export default {
 
   mounted() {
     const token = localStorage.getItem("token");
+
     axios
-      .get("http://localhost:8000/api/product_type", {
+      .get("http://localhost:8000/api/product_type/", {
         headers: {
           "ngrok-skip-browser-warning": true,
           Authorization: "Bearer " + token,
         },
       })
       .then((res) => {
-        this.getProduct_type = res.data;
+        this.getSelect = res.data;
+      });
+
+    axios
+      .get("http://localhost:8000/api/product/" + this.prodId, {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        this.products = res.data;
       });
   },
 };
