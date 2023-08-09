@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import NotFound from '../views/NotFound.vue';
 
 Vue.use(VueRouter)
 
@@ -29,7 +30,7 @@ const routes = [
     }
   },
   {
-    path: '/user/edit/:id',
+    path: '/user/edit',
     name: 'userEdit',
     component: () => import('../components/UserEdit.vue'),
     meta: {
@@ -69,15 +70,53 @@ const routes = [
   },
 
  {
-    path: '/order',
-    name: 'order',
-    component: () => import('../components/Orders.vue'),
+    path: '/history',
+    name: 'history',
+    component: () => import('../views/Histories.vue'),
   },
   {
     path: '/ingredients',
     name: 'ingredients',
-    component: () => import('../components/Ingredients.vue'),
+    component: () => import('../views/Ingredients.vue'),
   },
+  {
+    path: '/report/income',
+    name: 'report_income',
+    component: () => import('../views/Income.vue'),
+  },
+
+  {
+    path: '/report/expenses',
+    name: 'report_expenses',
+    component: () => import('../views/Expenses.vue'),
+  },
+
+  {
+    path: '/report/best_seller',
+    name: 'report_best_seller',
+    component: () => import('../views/Bestseller.vue'),
+  },
+
+  {
+    path: '/report/unsaleable',
+    name: 'report_unsaleable',
+    component: () => import('../views/Unsaleable.vue'),
+  },
+
+
+  {
+    path: '*',
+    component: NotFound
+  },
+
+
+
+
+
+
+
+
+
   
 ]
 

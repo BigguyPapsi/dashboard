@@ -1,6 +1,19 @@
 <template>
+<div style="display: flex; justify-content: center;" >
   <div class="card" style="width: 600px">
+    <router-link
+      to="/product"
+      style="display: flex; justify-content: end; margin: 10px 10px 0 0"
+    >
+      <button
+        style="justify-content: center"
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+      />
+    </router-link>
     <div class="card-body">
+      <h2 style="display: flex; justify-content:center">ແກ້ສິນຄ້າ</h2>
       <b-form @submit.prevent="onSubmit">
         <b-input-group>
           <b-input-group-text
@@ -139,12 +152,10 @@
           >
         </div>
 
-        special <b>(Checked: {{ products.special }})</b><br />
-        recent <b>(Checked: {{ products.recent }})</b><br />
-        popular <b>(Checked: {{ products.popular }})</b>
       </b-form>
     </div>
   </div>
+</div>
 </template>
 
 <script>

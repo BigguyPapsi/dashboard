@@ -7,28 +7,66 @@
     <br />
     <v-row>
       <v-col lg="7" cols="12">
-        <v-alert dense text type="success">
-          Login Successfully! Welcome to <strong>Web Burden</strong>
-        </v-alert>
+        <h3>ຜູ້ໃຊ້ທັ້ງໝົດ</h3>
+
         <v-row>
-          <v-col
-            lg="6"
-            cols="12"
-            v-for="(item, index) in activityLog"
-            :key="index"
-          >
+          <v-col lg="6" cols="12">
             <v-card elevation="2" class="rounded-lg">
               <v-card-text class="d-flex justify-space-between align-center">
                 <div>
-                  <strong>{{ item.title }}</strong> <br />
+                  <strong>hello</strong> <br />
                   <span>Last 3 weeks</span>
                 </div>
-                <v-avatar
-                  size="60"
-                  :color="item.color"
-                  style="border: 3px solid #444"
-                >
-                  <span style="color: white">{{ item.amount }} +</span>
+                <v-avatar size="60" style="border: 3px solid #444">
+                  <span style="color: white">hhh +</span>
+                </v-avatar>
+              </v-card-text>
+              <v-card-actions class="d-flex justify-space-between">
+              </v-card-actions>
+            </v-card>
+          </v-col>
+
+          <v-col lg="6" cols="12">
+            <v-card elevation="2" class="rounded-lg">
+              <v-card-text class="d-flex justify-space-between align-center">
+                <div>
+                  <strong>hello</strong> <br />
+                  <span>Last 3 weeks</span>
+                </div>
+                <v-avatar size="60" style="border: 3px solid #444">
+                  <span style="color: white">hhh +</span>
+                </v-avatar>
+              </v-card-text>
+              <v-card-actions class="d-flex justify-space-between">
+              </v-card-actions>
+            </v-card>
+          </v-col>
+
+          <v-col lg="6" cols="12">
+            <v-card elevation="2" class="rounded-lg">
+              <v-card-text class="d-flex justify-space-between align-center">
+                <div>
+                  <strong>hello</strong> <br />
+                  <span>Last 3 weeks</span>
+                </div>
+                <v-avatar size="60" style="border: 3px solid #444">
+                  <span style="color: white">hhh +</span>
+                </v-avatar>
+              </v-card-text>
+              <v-card-actions class="d-flex justify-space-between">
+              </v-card-actions>
+            </v-card>
+          </v-col>
+
+          <v-col lg="6" cols="12">
+            <v-card elevation="2" class="rounded-lg">
+              <v-card-text class="d-flex justify-space-between align-center">
+                <div>
+                  <strong>hello</strong> <br />
+                  <span>Last 3 weeks</span>
+                </div>
+                <v-avatar size="60" style="border: 3px solid #444">
+                  <span style="color: rgb(255, 136, 0)">hhh +</span>
                 </v-avatar>
               </v-card-text>
               <v-card-actions class="d-flex justify-space-between">
@@ -40,25 +78,19 @@
       <v-col cols="12" lg="5">
         <v-card>
           <v-card-title>Activities</v-card-title>
+
           <v-card-text class="py-0">
             <v-timeline align-top dense>
-              <v-timeline-item color="indigo" small>
-                <strong>5 Minuts ago</strong>
-                <div class="text-caption">
-                  income from annie 10,000 kip
-                </div>
-              </v-timeline-item>
-              <v-timeline-item color="green" small>
-                <strong>35 Minuts ago</strong>
-                <div class="text-caption mb-2">A Product has delivered!</div>
-              </v-timeline-item>
-
-              <v-timeline-item color="indigo" small>
-                <strong>44 Minuts ago</strong>
-                <div class="text-caption">
-                  You have new order please check this out
-                </div>
-              </v-timeline-item>
+              <div v-for="(item, index) in getHis" :key="index">
+                <v-timeline-item color="green" small>
+                  <strong>
+                    {{
+                      new Date(item.created_at).toLocaleString().substring(0, 8)
+                    }}</strong
+                  >
+                  <div class="text-caption" style="color: green;">+ {{ item.price_total }}</div>
+                </v-timeline-item>
+              </div>
             </v-timeline>
           </v-card-text>
         </v-card>
@@ -72,8 +104,8 @@
             :items-per-page="5"
             class="elevation-1"
           >
-            <template >
-                <!-- v-slot:item.action="" -->
+            <template>
+              <!-- v-slot:item.action="" -->
               <v-btn color="success" outlined small shaped>View</v-btn>
             </template>
           </v-data-table>
@@ -84,10 +116,12 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Dashboard",
   data() {
     return {
+      getHis: [],
       activityLog: [
         {
           title: "Total Products",
@@ -216,6 +250,19 @@ export default {
     onButtonClick(item) {
       console.log("click on " + item.no);
     },
+  },
+  mounted() {
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:8000/api/allorderwithdetail", {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        this.getHis = res.data.slice(0, 3);
+      });
   },
 };
 </script>

@@ -16,6 +16,7 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <p></p>
                   <tr v-for="(item, i) in getProt" :key="i">
                     <td class="text-center">
                       <viewer :images="item.img" v-if="item.img">
@@ -41,8 +42,6 @@
                     <td class="text-center">{{ item.name }}</td>
 
                     <td class="text-center">
-
-                      
                       <b-button
                         v-b-modal.modal-1
                         variant="outline-warning"
@@ -70,7 +69,9 @@
             </b-button> -->
           </div>
         </td>
+
         <!----------------------------------------------------------------------------->
+
         <td>
           <div class="card" style="width: 500px; height: 400px">
             <div class="card-body">
@@ -87,9 +88,9 @@
               <label for="example-input" class="mt-5">Name</label>
               <b-form ref="form" @submit.prevent="onSubmit">
                 <b-input-group>
-                  <b-input-group-text
-                    ><i class="fa-solid fa-mug-hot"></i
-                  ></b-input-group-text>
+                  <b-input-group-text>
+                    <i class="fa-solid fa-mug-hot" />
+                  </b-input-group-text>
 
                   <b-form-input
                     v-model="pdType.name"
@@ -127,6 +128,7 @@
                     <i class="fa-solid fa-plus"></i>
                     Add
                   </b-button>
+
                   <b-button
                     class="mt-3 ml-3"
                     variant="danger"
@@ -151,9 +153,8 @@
           <b-form @submit.prevent="onUpdate">
             <b-input-group>
               <b-input-group-text
-                ><i class="fa-solid fa-mug-hot">
-                  </i>
-                  </b-input-group-text>
+                ><i class="fa-solid fa-mug-hot"> </i>
+              </b-input-group-text>
 
               <b-form-input
                 v-model="selectedPdtype.name"
@@ -190,9 +191,21 @@
     <div>
       <v-card>
         <v-card-title>
-          <router-link to="/product/create">
-            <b-button variant="primary"> + Create new product </b-button>
+          <div v-if="getProt.length == 0">
+            <span id="disabled-wrapper" class="d-inline-block" tabindex="0">
+              <b-button style="pointer-events: none" disabled>
+                + ເພີ່ມສິນຄ້າ
+              </b-button>
+            </span>
+            <b-tooltip target="disabled-wrapper"
+              >ຍັງບໍ່ທັນມີປະເພດສິນຄ້າ</b-tooltip
+            >
+          </div>
+
+          <router-link v-else to="/product/create">
+            <b-button variant="primary"> + ເພີ່ມສິນຄ້າ</b-button>
           </router-link>
+
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
@@ -209,16 +222,14 @@
               @click="viewInfo(item.id)"
               v-b-modal.modal-2
             >
-              <i class="fa-solid fa-expand"></i>  View </b-button
-            >
+              <i class="fa-solid fa-expand"></i> View
+            </b-button>
             &nbsp;
 
             <router-link :to="{ name: 'productEdit', params: { id: item.id } }">
-
               <b-button variant="outline-warning">
                 <i class="fa-solid fa-pen-to-square"></i> Edit
               </b-button>
-
             </router-link>
             &nbsp;
 
@@ -228,7 +239,7 @@
           </template>
 
           <template v-slot:item.popular_icon="{ item }">
-            <div v-if="item.popular == 'true' ">
+            <div v-if="item.popular == 'true'">
               <i class="fa-solid fa-star"></i>
             </div>
             <div v-else>
@@ -239,45 +250,91 @@
       </v-card>
     </div>
 
-    <!-- ------------------------ product modal -------------------------------- -->
+    <!-- ---------------------------- product modal -------------------------------- -->
 
-    <b-modal id="modal-2" title="BootstrapVue">
-      <div>
+    <b-modal id="modal-2" title=" ລາຍລະອຽດສິນຄ້າ" hide-footer scrollable>
+      <div style="height: 550px">
+        <img
+          style="width: 100%; height: 320px; object-fit: cover"
+          :src="'http://localhost:8000/storage/' + view.img"
+        />
         <table class="table table-bordered" v-if="view">
           <tbody>
             <tr>
-              <td><i class="fa-solid fa-phone"></i>&nbsp; phone:</td>
-              <td>{{ comma(view.price) }}</td>
+              <td style="width: 120px">&nbsp;ຊື່:</td>
+              <td>{{ comma(view.name) }}</td>
             </tr>
             <tr>
-              <td><i class="fa-solid fa-venus-mars"></i>&nbsp; gender:</td>
+              <td style="width: 120px">&nbsp;ປະເພດ:</td>
+              <td>{{ view.product_type_name }}</td>
+            </tr>
+            <tr>
+              <td style="width: 120px">&nbsp;ຈຳນວນ:</td>
+              <td>
+                {{ view.quantity }} {{ view.unit }}
+                <b-button
+                  variant="success"
+                  v-b-modal.modal-center
+                  style="margin-left: 100px"
+                  >+ ເພີ່ມ</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 120px">&nbsp;ລາຄາ(ຕໍ່ອັນ):</td>
               <td>{{ view.price }}</td>
             </tr>
             <tr>
-              <td><i class="fa-solid fa-users"></i>&nbsp; role:</td>
-              <td>{{ view.price }}</td>
+              <td style="width: 120px">&nbsp;ພິເສດ:</td>
+              <td v-if="view.special == 'true'">
+                <i class="fa-solid fa-check" style="color: green" />
+              </td>
+              <td v-else><i class="fa-solid fa-xmark" style="color: red" /></td>
             </tr>
             <tr>
-              <td><i class="fa-solid fa-map-pin"></i> village:</td>
-              <td>{{ view.price }}</td>
+              <td style="width: 120px">&nbsp;ເມນູໃໝ່:</td>
+              <!-- <td>{{ view.recent }}</td> -->
+              <td v-if="view.recent == 'true'">
+                <i class="fa-solid fa-check" style="color: green" />
+              </td>
+              <td v-else><i class="fa-solid fa-xmark" style="color: red" /></td>
             </tr>
             <tr>
-              <td><i class="fa-solid fa-map-pin"></i> district:</td>
-              <td>{{ view.price }}</td>
+              <td style="width: 120px">&nbsp;ແນະນຳ:</td>
+              <!-- <td>{{ view.popular }}</td> -->
+              <td v-if="view.popular == 'true'">
+                <i class="fa-solid fa-check" style="color: green" />
+              </td>
+              <td v-else><i class="fa-solid fa-xmark" style="color: red" /></td>
             </tr>
-            <tr>
-              <td><i class="fa-solid fa-map-pin"></i> province:</td>
-              <td>{{ view.price }}</td>
-            </tr>
+            <td colspan="2">
+              <h4>ຄຳອະທິບາຍ:</h4>
+
+              {{ view.description }}
+            </td>
           </tbody>
         </table>
       </div>
+    </b-modal>
+
+    <b-modal id="modal-center" centered title="ເພີ່ມ Stock" hide-footer>
+      <b-input-group prepend="ຈຳນວນ" class="mt-3">
+        <b-form-input
+          type="number"
+          v-model="quantityPlus"
+          min="1"
+        ></b-form-input>
+        <b-input-group-append>
+          <b-button variant="success" @click="saveQ">ບັນທຶກ</b-button>
+        </b-input-group-append>
+      </b-input-group>
     </b-modal>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Swal from "sweetalert2";
 import "viewerjs/dist/viewer.css";
 import VueViewer from "v-viewer";
 import Vue from "vue";
@@ -285,6 +342,7 @@ Vue.use(VueViewer);
 export default {
   data() {
     return {
+      quantityPlus: 1,
       view: [],
       selectedPdtype: {},
       getProt: [],
@@ -312,13 +370,53 @@ export default {
     };
   },
   methods: {
+    saveQ() {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      // formData.append("_method", "PATH");
+      formData.append("quantity", this.quantityPlus);
+      formData.append("product_id", this.view.id);
 
-comma(numb){
-  if (numb == "undefined" || !numb) return ""
-  return numb.toLocaleString()
-},
+      axios
+        .post("http://localhost:8000/api/stock", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+          },
+        })
+        .then(() => {
+          // alert("ບັນທືກແລ້ວ");
+          // console.log(data);
+          // window.location.reload();
 
-async deleteProduct(id) {
+          //
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+
+          Swal.fire({
+            text: "ບັນທຶກຂໍ້ມູນສຳເລັດ",
+            icon: "success",
+            showConfirmButton: false,
+          });
+
+          this.$router.push({ path: "/product" });
+        })
+        .catch(() => {
+          // alert("ໃສ່ຂໍ້ມູນບໍ່ຄົບ");
+          Swal.fire({
+            text: "ໃສ່ຂໍ້ມູນບໍ່ຖືກຕ້ອງ",
+            icon: "error",
+          });
+        });
+    },
+
+    comma(numb) {
+      if (numb == "undefined" || !numb) return "";
+      return numb.toLocaleString();
+    },
+
+    async deleteProduct(id) {
       let x = window.confirm("You want to delete the user?");
 
       if (x) {
@@ -338,8 +436,6 @@ async deleteProduct(id) {
       }
     },
 
-
-
     async viewInfo(id) {
       if (id !== null) {
         const token = localStorage.getItem("token");
@@ -356,10 +452,8 @@ async deleteProduct(id) {
         this.view = view.data;
       }
     },
-    
-    mounted() {
 
-      
+    mounted() {
       const token = localStorage.getItem("token");
 
       axios
@@ -448,6 +542,7 @@ async deleteProduct(id) {
       even.preventDefault();
       this.save();
     },
+
     saveData() {
       const formData = new FormData();
       const token = localStorage.getItem("token");
@@ -462,7 +557,24 @@ async deleteProduct(id) {
           },
         })
         .then(() => {
-          window.location.reload();
+          Swal.fire({
+            text: "ບັນທຶກຂໍ້ມູນສຳເລັດ",
+            icon: "success",
+            showCancelButton: false,
+            showConfirmButton: false,
+          });
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+
+          // this.$router.push({ path: "/product" });
+        })
+        .catch(() => {
+          Swal.fire({
+            text: "ຍັງບໍ່ໄດ້ປ້ອນຂໍ້ມູນ",
+            icon: "error",
+          });
         });
     },
 

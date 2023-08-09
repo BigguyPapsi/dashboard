@@ -1,17 +1,8 @@
 <template>
-  <v-navigation-drawer
-    v-model="drawer"
-    app
-    style="background-color: rgb(231, 231, 227)"
-  >
+  <v-navigation-drawer v-model="drawer" app style="background-color: #f8c632">
     <v-img>
       <div class="text-center">
-        <v-avatar class="mb-3" color="grey darken-1" size="85">
-          <v-img
-            aspect-ratio="50"
-            src="https://cdn.discordapp.com/attachments/1036997845498220614/1062024344743710793/309496074_461585429329899_1581586192334159311_n.png"
-          />
-        </v-avatar>
+        <img aspect-ratio="50" src="../assets/IMG_1432.svg" width="120px" />
       </div>
     </v-img>
 
@@ -28,6 +19,85 @@
         </v-list-item>
       </router-link>
     </v-list>
+
+    <div style="margin-top: 10px">
+      <b-button
+        v-b-toggle.collapse-1
+        variant="warning"
+        style="
+          width: 100%;
+          background-color: #f8c632;
+          border: none;
+          display: flex;
+          justify-content: start;
+        "
+      >
+        <i
+          class="fa-solid fa-bullhorn"
+          style="opacity: 60%; margin-left: 18px; margin-right: 30px"
+        ></i>
+        Report
+      </b-button>
+
+      <b-collapse id="collapse-1" class="mt-2">
+        <b-card bg-variant="dark" style="border-radius: 0px">
+          <div style="width: 100%">
+            <router-link to="/report/income">
+              <b-button
+                variant="dark"
+                style="width: 100%; border-radius: 100px"
+                class="text-start"
+              >
+                <i
+                  class="fa-solid fa-chart-line"
+                  style="margin-right: 30px"
+                ></i>
+                Income</b-button
+              >
+            </router-link>
+
+            <router-link to="/report/expenses">
+              <b-button
+                variant="dark"
+                style="width: 100%; border-radius: 100px"
+                class="text-start"
+              >
+                <i
+                  class="fa-solid fa-arrow-trend-down"
+                  style="margin-right: 30px"
+                ></i>
+                Expenses
+              </b-button>
+            </router-link>
+
+            <router-link to="/report/best_seller">
+              <b-button
+                variant="dark"
+                style="width: 100%; border-radius: 100px"
+                class="text-start"
+              >
+                <i class="fa-regular fa-star" style="margin-right: 30px"></i>
+                Best seller</b-button
+              >
+            </router-link>
+
+            <router-link to="/report/unsaleable">
+              <b-button
+                variant="dark"
+                style="width: 100%; border-radius: 100px"
+                class="text-start"
+              >
+                <i
+                  class="fa-regular fa-thumbs-down"
+                  style="margin-right: 30px"
+                ></i>
+                Unsaleable</b-button
+              >
+            </router-link>
+          </div>
+        </b-card>
+      </b-collapse>
+    </div>
   </v-navigation-drawer>
 </template>
 
@@ -39,11 +109,11 @@ export default {
     return {
       links: [
         ["mdi-microsoft-windows", "Dashboard", "/"],
-        ["mdi-account", "Users", "/user"],
-        ["mdi-clipboard-list-outline", "Products", "/product"],
-        ["mdi-card-account-details-outline", "Orders", "/order"],
+        ["mdi-account-outline", "Users", "/user"],
+        ["mdi-book-outline", "Products", "/product"],
+        ["mdi-card-account-details-outline", "Histories", "/history"],
         ["mdi-clipboard-list-outline", "Ingredients", "/ingredients"],
-        ["mdi-cog", "System Setting", "/"],
+        // ["mdi-bullhorn-variant-outline", "Report", "/report"],
       ],
     };
   },

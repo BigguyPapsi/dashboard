@@ -1,7 +1,10 @@
 <template>
+<div style="display: flex; justify-content: center;">
   <div class="card text-center" style="width: 550px">
-    <h1>Employee_Edit</h1>
-    <h3>{{ userId }}</h3>
+    <router-link to="/user" style="display: flex; justify-content: end; margin: 10px 10px 0 0;">
+    <button style="justify-content: center;" type="button" class="btn-close" aria-label="Close" />
+    </router-link>
+    <h1>ແກ້ໄຂຜູ້ໃຊ້</h1>
     <div class="card-body">
       <b-form @submit.prevent="onSubmit">
         <div class="inputForm">
@@ -155,10 +158,12 @@
       </b-form>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
+
 export default {
   name: "EmployeeCreate",
   data() {
@@ -222,8 +227,9 @@ export default {
         })
         .then(({ data }) => {
           alert("saveddddd");
-          // window.location.reload();
+      
           this.$router.push({ path: "/user" });
+          window.location.reload();
           console.log(data);
         });
     },

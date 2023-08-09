@@ -1,9 +1,22 @@
 <template>
+<div style="display: flex; justify-content: center; margin-top: 100px;">
+  
   <div
     class="card"
-    style="width: 500px; display: flex; justify-content: center"
-  >
+    style="width: 500px;">
+    
+   
+
     <div class="card-body">
+      <div style="display: flex; justify-content: center; margin-top: 25px;">
+       <img src="../assets/IMG_1433.png" style="width: 250px; height: 150px; object-fit: cover; "/>
+      
+       
+      </div>
+      <div style="display: flex; justify-content: center; margin-top: 15px;">
+        <h2><b>ເຂົ້າສູ່ລະບົບ</b></h2>
+      </div>
+      
       <v-form ref="form" @submit.prevent="logIn" lazy-validation class="pa-10">
         <v-row align="center" justify="center">
           <v-col cols="12" sm="10">
@@ -30,14 +43,15 @@
               @click:append="show1 = !show1"
             ></v-text-field>
 
-            <v-btn color="primary" type="submit" block class="btn">
-              Login
+            <v-btn  color="#f8c632" type="submit" block class="btn">
+              <b style="color: #424242;">ເຂົ້າສູລະບົບ</b>
             </v-btn>
           </v-col>
         </v-row>
       </v-form>
     </div>
   </div>
+</div>
 </template>
 
 <script>
