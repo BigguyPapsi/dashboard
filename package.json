@@ -12,6 +12,7 @@
     "axios": "^1.4.0",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.6.5",
+    "dayjs": "^1.11.9",
     "moment": "^2.29.4",
     "sweetalert2": "^11.7.21",
     "v-viewer": "^1.7.1",

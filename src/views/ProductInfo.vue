@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="employee">
+      <h2 style="margin: 25px 0 25px 0">Product Management</h2>
+    </div>
     <div>
       <div
         style="display: flex; justify-content: space-between; margin-bottom: 2%"

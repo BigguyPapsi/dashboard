@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import axios from "axios";
 export default {
   data() {
@@ -105,6 +106,40 @@ export default {
         await axios
           .post("http://localhost:8000/api/login", this.login)
           .then((res) => {
+
+            if (res.data.user.roles == "Customer") {
+
+
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "ທ່ານບໍ່ມີສິດເຂົ້າເຖິງ !!",
+                text: "something was wrong !!",
+                showConfirmButton: true,
+                width: 600,
+                padding: "3em",
+                iconColor: "crimson",
+                confirmButtonText: "ຕົກລົງ",
+                confirmButtonColor: "#1d2186",
+              });
+              return;
+            }
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "ເຂົ້າສູ່ລະບົບສຳເລັດ !",
+              text: "Successful !",
+              showConfirmButton: false,
+              iconColor: "limegreen",
+              width: 600,
+              padding: "3em",
+              timer: 1500,
+            });
+
+
+
+
+
             let token = res.data.token;
             let id = res.data.user.id;
 

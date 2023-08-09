@@ -118,6 +118,7 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import axios from "axios";
 export default {
   name: "Topbar",
@@ -130,9 +131,50 @@ export default {
 
   methods: {
     Logout() {
-      localStorage.clear();
-      // window.location.reload();
-      this.$router.push("/login");
+      // localStorage.clear();
+   
+      // this.$router.push("/login");
+
+
+      Swal.fire({
+        title: "ຕ້ອງການອອກຈາກລະບົບແທ້ບໍ່ ?",
+        text: "Are you sure ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "ຕົກລົງ",
+        cancelButtonText: "ຍົກເລີກ",
+        iconColor: "#ffa334",
+        width: 600,
+        padding: "3em",
+        position: "center",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          localStorage.clear();
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "ດຳເນີນການສຳເລັດ !",
+            text: "Successful !",
+            showConfirmButton: false,
+            iconColor: "limegreen",
+            width: 600,
+            padding: "3em",
+            timer: 1500,
+          });
+          // this.$router.push({ path: "/user" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+          setTimeout(() => {
+            this.$router.push("/login");
+          }, 2500);
+        }
+      });
+
+
+
     },
 
 
@@ -159,11 +201,7 @@ export default {
 
     },
 
-
-
-
-
-
+  
 
 
 };
