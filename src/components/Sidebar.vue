@@ -111,7 +111,7 @@ export default {
         ["mdi-microsoft-windows", "Dashboard", "/"],
         ["mdi-account-outline", "Users", "/user"],
         ["mdi-book-outline", "Products", "/product"],
-        ["mdi-card-account-details-outline", "Histories", "/history"],
+        ["mdi-card-account-details-outline", "History", "/history"],
         ["mdi-clipboard-list-outline", "Ingredients", "/ingredients"],
         // ["mdi-bullhorn-variant-outline", "Report", "/report"],
       ],

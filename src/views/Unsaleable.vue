@@ -1,6 +1,8 @@
 <template>
-  
   <div>
+    <div class="employee">
+      <h2 style="margin: 25px 0 25px 0">Unsaleable</h2>
+    </div>
     <table class="table">
       <thead class="table-dark">
         <tr>
@@ -29,7 +31,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      loading:true,
+      loading: true,
       getBadSeller: "",
     };
   },

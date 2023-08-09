@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="employee">
+      <h2 style="margin: 25px 0 25px 0">Best Seller</h2>
+    </div>
     <table class="table">
       <thead class="table-dark">
         <tr>
@@ -41,7 +44,7 @@ export default {
         },
       })
       .then((res) => {
-        this.getBestSeller = res.data.slice(0,5);
+        this.getBestSeller = res.data.slice(0, 5);
       });
   },
 };

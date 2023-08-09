@@ -1,7 +1,14 @@
 <template>
   <div>
-    <b-tabs content-class="mt-3" align="center">
-      <b-tab title="ຄຳນວນວັດຖຸດິບ" active style="margin-top: -12px">
+    <div class="employee">
+      <h2 style="margin: 25px 0 25px 0">Ingredient Management</h2>
+    </div>
+    <b-tabs
+      align="center"
+      nav-class="bg-secondary d-flex align-items-center rounded"
+      active-nav-item-class="font-weight-bold text-uppercase bg-dark text-white py-3 rounded"
+    >
+      <b-tab title="ຄຳນວນວັດຖຸດິບ" active title-link-class="text-white ">
         <div
           style="
             background-color: #fff;
@@ -115,13 +122,12 @@
 
       <!-- --------------------------------------------------------------- -->
 
-      <b-tab title="ປະຫວັດການຄຳນວນ">
+      <b-tab title="ປະຫວັດການຄຳນວນ" title-link-class="text-white ">
         <!-- v-for="(item, i) in getIngre" :key="i" -->
 
         <div
           style="
             background-color: #fff;
-            margin-top: -12px;
             filter: drop-shadow(0px 3px 2px #9b9b9b);
           "
         >

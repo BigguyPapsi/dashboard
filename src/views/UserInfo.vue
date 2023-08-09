@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="employee">
-      <h2 style="margin: 25px 0 25px 0">Users management</h2>
+      <h2 style="margin: 25px 0 25px 0">Users Management</h2>
     </div>
     <div>
       <v-card>
