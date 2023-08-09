@@ -7,18 +7,22 @@
     <br />
     <v-row>
       <v-col lg="7" cols="12">
-        <h3>ຜູ້ໃຊ້ທັ້ງໝົດ</h3>
+
 
         <v-row>
           <v-col lg="6" cols="12">
             <v-card elevation="2" class="rounded-lg">
               <v-card-text class="d-flex justify-space-between align-center">
                 <div>
-                  <strong>hello</strong> <br />
-                  <span>Last 3 weeks</span>
+                  <strong>ລູກຄ້າທັ້ງໝົດ</strong> <br />
+                  <span>
+                    <router-link to="/user">
+                      <i class="fa-solid fa-arrow-up-right-from-square"/>
+                      Manage</router-link>
+                  </span>
                 </div>
                 <v-avatar size="60" style="border: 3px solid #444">
-                  <span style="color: white">hhh +</span>
+                  <span style="color: rgb(0, 0, 0)">{{ role_customer.length }}</span>
                 </v-avatar>
               </v-card-text>
               <v-card-actions class="d-flex justify-space-between">
@@ -30,11 +34,17 @@
             <v-card elevation="2" class="rounded-lg">
               <v-card-text class="d-flex justify-space-between align-center">
                 <div>
-                  <strong>hello</strong> <br />
-                  <span>Last 3 weeks</span>
+                  <strong>ພະນັກງານທັ້ງໝົດ</strong> <br />
+                  <span>
+
+                    <router-link to="/user">
+                      <i class="fa-solid fa-arrow-up-right-from-square"/>
+                      Manage</router-link>
+
+                  </span>
                 </div>
                 <v-avatar size="60" style="border: 3px solid #444">
-                  <span style="color: white">hhh +</span>
+                  <span style="color: rgb(0, 0, 0)">{{ role_employee.length }}</span>
                 </v-avatar>
               </v-card-text>
               <v-card-actions class="d-flex justify-space-between">
@@ -46,11 +56,16 @@
             <v-card elevation="2" class="rounded-lg">
               <v-card-text class="d-flex justify-space-between align-center">
                 <div>
-                  <strong>hello</strong> <br />
-                  <span>Last 3 weeks</span>
+                  <strong>ລາຍການສັ່ງຊື້</strong> <br />
+                  <span>
+                    <router-link to="/order">
+                      <i class="fa-solid fa-arrow-up-right-from-square"/>
+                      Manage</router-link>
+
+                  </span>
                 </div>
                 <v-avatar size="60" style="border: 3px solid #444">
-                  <span style="color: white">hhh +</span>
+                  <span style="color: rgb(0, 0, 0)">{{ getOrder.length }}</span>
                 </v-avatar>
               </v-card-text>
               <v-card-actions class="d-flex justify-space-between">
@@ -62,11 +77,15 @@
             <v-card elevation="2" class="rounded-lg">
               <v-card-text class="d-flex justify-space-between align-center">
                 <div>
-                  <strong>hello</strong> <br />
-                  <span>Last 3 weeks</span>
+                  <strong>ສິນຄ້າທັ້ງໝົດ</strong> <br />
+                  <span>
+                    <router-link to="/product">
+                      <i class="fa-solid fa-arrow-up-right-from-square"/>
+                    Manage</router-link>
+                  </span>
                 </div>
                 <v-avatar size="60" style="border: 3px solid #444">
-                  <span style="color: rgb(255, 136, 0)">hhh +</span>
+                  <span style="color: rgb(0, 0, 0)">{{ getProduct.length }}</span>
                 </v-avatar>
               </v-card-text>
               <v-card-actions class="d-flex justify-space-between">
@@ -95,7 +114,8 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col>
+
+      <!-- <v-col>
         <v-card>
           <v-data-table
             caption="Recent Order list"
@@ -105,12 +125,14 @@
             class="elevation-1"
           >
             <template>
-              <!-- v-slot:item.action="" -->
+        
               <v-btn color="success" outlined small shaped>View</v-btn>
             </template>
           </v-data-table>
         </v-card>
-      </v-col>
+      </v-col> -->
+
+      
     </v-row>
   </div>
 </template>
@@ -121,6 +143,12 @@ export default {
   name: "Dashboard",
   data() {
     return {
+      role_employee:"",
+      role_customer:"",
+
+      getOrder:"",
+      getProduct:"",
+
       getHis: [],
       activityLog: [
         {
@@ -253,6 +281,48 @@ export default {
   },
   mounted() {
     const token = localStorage.getItem("token");
+
+    axios
+      .get("http://localhost:8000/api/order", {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        this.getOrder = res.data;
+      });
+
+
+    axios
+      .get("http://localhost:8000/api/product", {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        this.getProduct = res.data;
+      });
+
+
+
+
+    axios
+      .get("http://localhost:8000/api/users", {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        this.getUser = res.data;
+        this.role_employee = res.data.filter((item) => item.roles == "Employee" || item.roles == "Admin");
+        this.role_customer = res.data.filter((item) => item.roles == "Customer");
+      });
+
+
+
     axios
       .get("http://localhost:8000/api/allorderwithdetail", {
         headers: {

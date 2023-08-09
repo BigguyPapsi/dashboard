@@ -13,13 +13,6 @@
       <v-pagination v-model="page" :length="pageCount"></v-pagination>
     </div>
 
-
-
-
-
-
-
-
   </div>
 
 </template>
