@@ -58,7 +58,7 @@
                 <div>
                   <strong>ລາຍການສັ່ງຊື້</strong> <br />
                   <span>
-                    <router-link to="/order">
+                    <router-link to="#">
                       <i class="fa-solid fa-arrow-up-right-from-square"/>
                       Manage</router-link>
 
