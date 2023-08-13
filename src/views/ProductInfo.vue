@@ -513,8 +513,24 @@ export default {
           }
         )
         .then(({ data }) => {
-          alert("saveddddd");
-          window.location.reload();
+          // alert("saveddddd");
+          // alert("ບັນທຶກຂໍ້ມູນສຳເລັດ");
+            Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "ບັນທຶກຂໍ້ມູນສຳເລັດ !",
+            text: "Successful !",
+            showConfirmButton: false,
+            iconColor: "limegreen",
+            width: 600,
+            padding: "3em",
+            timer: 1500,
+          });
+       
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+          // window.location.reload();
           this.$router.push({ path: "/product" });
           console.log(data);
         });

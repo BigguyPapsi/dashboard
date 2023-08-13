@@ -243,10 +243,20 @@ export default {
           // console.log(data);
           // window.location.reload();
           Swal.fire({
-          text: "ບັນທຶກຂໍ້ມູນສຳເລັດ",
-          icon: "success",
-          
-        });
+            position: "center",
+            icon: "success",
+            title: "ບັນທຶກຂໍ້ມູນສຳເລັດ !",
+            text: "Successful !",
+            showConfirmButton: false,
+            iconColor: "limegreen",
+            width: 600,
+            padding: "3em",
+            timer: 1500,
+          });
+       
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         this.$router.push({ path: "/user" });
         })
         .catch(() => {
@@ -254,6 +264,7 @@ export default {
           Swal.fire({
             text: "ໃສ່ຂໍ້ມູນບໍ່ຄົບ ຫຼື ເບີໂທລະສັບຊ້ຳ",
             icon: "error",
+      
           });
 
 

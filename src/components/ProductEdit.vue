@@ -159,6 +159,7 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import axios from "axios";
 import VueNumericInput from "vue-numeric-input";
 export default {
@@ -225,7 +226,22 @@ export default {
           },
         })
         .then(() => {
-          alert("saveddddd");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "ບັນທຶກຂໍ້ມູນສຳເລັດ !",
+            text: "Successful !",
+            showConfirmButton: false,
+            iconColor: "limegreen",
+            width: 600,
+            padding: "3em",
+            timer: 1500,
+          });
+       
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+          // alert("saveddddd");
           // window.location.reload();
           this.$router.push({ path: "/product" });
         });

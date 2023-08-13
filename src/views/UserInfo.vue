@@ -195,7 +195,20 @@ export default {
               Authorization: "Bearer " + token,
             },
           });
-          window.location.reload();
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "ດຳເນີນການສຳເລັດ !",
+            text: "Successful !",
+            showConfirmButton: false,
+            iconColor: "limegreen",
+            width: 600,
+            padding: "3em",
+            timer: 1500,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         }
       });
 
