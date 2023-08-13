@@ -332,6 +332,9 @@
         </b-input-group-append>
       </b-input-group>
     </b-modal>
+
+    <!-- ---------------------------------clear stock ---------------------------------------------------------------------------- -->
+    <expired-product />
   </div>
 </template>
 
@@ -341,8 +344,10 @@ import Swal from "sweetalert2";
 import "viewerjs/dist/viewer.css";
 import VueViewer from "v-viewer";
 import Vue from "vue";
+import ExpiredProduct from "../components/ExpiredProduct.vue";
 Vue.use(VueViewer);
 export default {
+  components: { ExpiredProduct },
   data() {
     return {
       quantityPlus: 1,
