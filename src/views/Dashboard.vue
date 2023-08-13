@@ -11,9 +11,9 @@
 
         <v-row>
           <v-col lg="6" cols="12">
-            <v-card elevation="2" class="rounded-lg">
+            <v-card elevation="2" class="rounded-lg" style="background-color: rgb(240, 189, 189);">
               <v-card-text class="d-flex justify-space-between align-center">
-                <div>
+                <div >
                   <strong>ລູກຄ້າທັ້ງໝົດ</strong> <br />
                   <span>
                     <router-link to="/user">
@@ -21,7 +21,7 @@
                       Manage</router-link>
                   </span>
                 </div>
-                <v-avatar size="60" style="border: 3px solid #444">
+                <v-avatar size="60" style="border: 3px solid #444" color="white">
                   <span style="color: rgb(0, 0, 0)">{{ role_customer.length }}</span>
                 </v-avatar>
               </v-card-text>
@@ -31,7 +31,7 @@
           </v-col>
 
           <v-col lg="6" cols="12">
-            <v-card elevation="2" class="rounded-lg">
+            <v-card elevation="2" class="rounded-lg" style="background-color: rgb(226, 228, 168);">
               <v-card-text class="d-flex justify-space-between align-center">
                 <div>
                   <strong>ພະນັກງານທັ້ງໝົດ</strong> <br />
@@ -43,7 +43,7 @@
 
                   </span>
                 </div>
-                <v-avatar size="60" style="border: 3px solid #444">
+                <v-avatar size="60" style="border: 3px solid #bebe73" color="white">
                   <span style="color: rgb(0, 0, 0)">{{ role_employee.length }}</span>
                 </v-avatar>
               </v-card-text>
@@ -53,18 +53,18 @@
           </v-col>
 
           <v-col lg="6" cols="12">
-            <v-card elevation="2" class="rounded-lg">
+            <v-card elevation="2" class="rounded-lg" style="background-color: #b1e3c2;">
               <v-card-text class="d-flex justify-space-between align-center">
                 <div>
                   <strong>ລາຍການສັ່ງຊື້</strong> <br />
                   <span>
-                    <router-link to="#">
+                    <router-link to="/history">
                       <i class="fa-solid fa-arrow-up-right-from-square"/>
                       Manage</router-link>
 
                   </span>
                 </div>
-                <v-avatar size="60" style="border: 3px solid #444">
+                <v-avatar size="60" style="border: 3px solid #b0c990" color="white">
                   <span style="color: rgb(0, 0, 0)">{{ getOrder.length }}</span>
                 </v-avatar>
               </v-card-text>
@@ -74,7 +74,7 @@
           </v-col>
 
           <v-col lg="6" cols="12">
-            <v-card elevation="2" class="rounded-lg">
+            <v-card elevation="2" class="rounded-lg" style="background-color: #b1d6e3;">
               <v-card-text class="d-flex justify-space-between align-center">
                 <div>
                   <strong>ສິນຄ້າທັ້ງໝົດ</strong> <br />
@@ -84,7 +84,7 @@
                     Manage</router-link>
                   </span>
                 </div>
-                <v-avatar size="60" style="border: 3px solid #444">
+                <v-avatar size="60" style="border: 3px solid #b1b1da" color="white">
                   <span style="color: rgb(0, 0, 0)">{{ getProduct.length }}</span>
                 </v-avatar>
               </v-card-text>
@@ -131,6 +131,10 @@
           </v-data-table>
         </v-card>
       </v-col> -->
+      <div style="width: 100%; height: 250px; border-radius: 10px;background-color: #e4d795; filter: drop-shadow(0px 3px 2px #9b9b9b) ;justify-content: center; align-items: center;display: flex; flex-direction: column; ">
+        <h2>Welcome to Admin panel !!! </h2><br/>
+        <h4>ຍິນດີຕ້ອນຮັບເຂົ້າສູ່ໜ້າແອັດມິນ !!! </h4>
+      </div>
 
       
     </v-row>
