@@ -13,7 +13,7 @@
         />
       </router-link>
       <div class="card-body">
-        <h2 style="display: flex; justify-content:center">ເພິ່ມສິນຄ້າ</h2>
+        <h2 style="display: flex; justify-content: center">ເພິ່ມສິນຄ້າ</h2>
         <b-form @submit.prevent="onSubmit">
           <b-input-group>
             <b-input-group-text
@@ -82,6 +82,18 @@
                   <i class="fa-solid fa-bars"></i>
                 </b-input-group-text>
                 <b-form-input placeholder="Unit" v-model="prod.unit">
+                </b-form-input>
+              </b-input-group>
+            </td>
+            <td style="padding-left: 2rem">
+              <b-input-group size="sm" style="width: 150px; text-align: center">
+                <b-input-group-text>
+                  <i class="fa-solid fa-circle-exclamation"></i>
+                </b-input-group-text>
+                <b-form-input
+                  placeholder="Expired time"
+                  v-model="prod.expiration_time"
+                >
                 </b-form-input>
               </b-input-group>
             </td>
@@ -194,6 +206,7 @@ export default {
         description: "",
         unit: "",
         price: "",
+        expiration_time: "",
         special: false,
         recent: false,
         popular: false,
@@ -243,10 +256,9 @@ export default {
           setTimeout(() => {
             window.location.reload();
           }, 1000);
-       
+
           this.$router.push({ path: "/product" });
           console.log(data);
-          
         });
     },
   },

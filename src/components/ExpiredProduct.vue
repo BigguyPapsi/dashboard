@@ -28,19 +28,28 @@
           </div>
           <v-spacer></v-spacer>
           <div class="count-content">
-            <h6>ສິນຄ້າໝົດກຳນົດ: 2 ລາຍການ</h6>
+            <h6>ສິນຄ້າໝົດກຳນົດ: {{ getOrder.length }} ລາຍການ</h6>
           </div>
         </v-card-title>
         <v-data-table :headers="headers" :items="getOrder" :search="search">
           <template v-slot:item.created_at="{ item }">
             {{ new Date(item.created_at).toLocaleString("nl-NL") }}
           </template>
-          <template v-slot:item.countTime="{ item }">
-            <p>test: {{ daysSinceLastDate(item) }} day</p>
+          <template v-slot:item.stocks="{ item }">
+            <!-- <div v-for="(index, i) in item.stocks" :key="i">
+              <p>test: {{ daysSinceLastDate(index.created_at) }} day</p>
+            </div> -->
+            <!-- <p>test: {{ daysSinceLastDate(item.stocks[0].created_at) }} day</p> -->
+            <p>
+              {{
+                daysSinceLastDate(item.stocks.slice().reverse()[0].created_at)
+              }}
+              ວັນ
+            </p>
           </template>
           <template v-slot:item.option="{ item }">
-            <b-button variant="outline-danger" @click="deleteStock(item.id)">
-              <i class="fa-regular fa-trash-can"></i> Delete</b-button
+            <b-button variant="outline-danger" @click="clearStock(item)">
+              <i class="fa-regular fa-trash-can"></i> Clear</b-button
             >
           </template>
         </v-data-table>
@@ -50,12 +59,13 @@
 </template>
 
 <script>
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import axios from "axios";
 export default {
   data() {
     return {
+      quantity: 0,
       search: [],
       expiredPro: 3,
       dateTest: [],
@@ -74,17 +84,17 @@ export default {
         // { text: "qauantity", value: "quantity" },
         // { text: "time add", value: "time_at" },
         {
-          text: "ເລກບິນ",
+          text: "ລະຫັດ",
           align: "start",
           sortable: false,
           value: "id",
         },
         // { text: "ສະຖານະ", value: "status" },
-        { text: "user id", value: "user_id" },
-        { text: "role", value: "roles" },
-        { text: "ເວລາ", value: "created_at" },
-        { text: "time add - today", value: "countTime" },
-        { text: "ລາຄາລວມ", value: "price_total" },
+        { text: "name", value: "name" },
+        { text: "quantity", value: "quantity" },
+        { text: "ເວລາທີ່ກຳນົດ", value: "expiration_time" },
+        { text: "time add - now", value: "stocks" },
+        // { text: "ລາຄາລວມ", value: "price_total" },
         { text: "Option", value: "option" },
       ],
     };
@@ -100,8 +110,9 @@ export default {
       .then((res) => {
         this.items = res.data;
       });
+    //----------------------------------------------------------------------------------------------------------//
     axios
-      .get("http://localhost:8000/api/allorderwithdetail", {
+      .get("http://localhost:8000/api/new", {
         headers: {
           "ngrok-skip-browser-warning": true,
           Authorization: "Bearer " + token,
@@ -109,15 +120,28 @@ export default {
       })
       .then((res) => {
         // this.getOrder = res.data.reverse();
+
         const timeFilter = res.data;
+        console.log("testt timeFilter ==>", timeFilter);
+
+        const expiTime = timeFilter[0].expiration_time;
+        console.log("testt expiTime ==>", expiTime);
+
         const data = timeFilter.filter((item) => {
+          const time = item.stocks.slice().reverse()[0];
+          console.log("testt time ==>", time);
           const currentDate = new Date();
-          const previousDate = new Date(item.created_at);
+          const previousDate = new Date(time.created_at);
           const timeDifference = currentDate.getTime() - previousDate.getTime();
           const daysDifference = Math.floor(
             timeDifference / (1000 * 60 * 60 * 24)
           );
-          const test = daysDifference >= this.expiredPro; //expired Product time
+          console.log("testt daysDifference ==>", daysDifference);
+
+          // const test = daysDifference >= this.expiredPro; //expired Product time
+          const test = daysDifference >= expiTime && item.quantity > 0;
+          console.log("testt test ====>", test);
+
           return test;
         });
         this.getOrder = data;
@@ -127,17 +151,49 @@ export default {
     dayjs: function () {
       return dayjs();
     },
-    deleteStock(item) {
+    clearStock(item) {
       console.log("show id: ", item);
+      const formData = new FormData();
+      formData.append("_method", "put");
+      formData.append("quantity", this.quantity);
+
+      const token = localStorage.getItem("token");
+      axios
+        .post("http://localhost:8000/api/new/" + item.id, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            Authorization: "Bearer " + token,
+          },
+        })
+        .then(({ data }) => {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "ສຳເລັດ !!",
+            text: "Report problem !!",
+            showConfirmButton: false,
+            iconColor: "green",
+            width: 600,
+            padding: "3em",
+            timer: 1500,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+          // alert("ດຳເນີນການສຳເລັດ");
+          console.log(data);
+        });
     },
     daysSinceLastDate(item) {
       const currentDate = new Date();
-      const previousDate = new Date(item.created_at);
+      const previousDate = new Date(item);
       const timeDifference = currentDate.getTime() - previousDate.getTime();
       const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
       return daysDifference;
     },
   },
+
   // computed: {
   //   daysSinceLastDate(created_at) {
   //     const currentDate = new Date();
@@ -157,8 +213,9 @@ export default {
 .count-content {
   display: flex;
   height: 45px;
-  padding: 0 0.5rem;
+  padding: 0.5rem 1rem;
   align-items: center;
   background-color: #eece57;
+  border-radius: 5px;
 }
 </style>

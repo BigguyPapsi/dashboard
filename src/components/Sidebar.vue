@@ -20,7 +20,7 @@
       </router-link>
     </v-list>
 
-    <div style="margin-top: 10px">
+    <div style="margin-top: 10px" v-show="userState.roles != 'Admin'">
       <b-button
         v-b-toggle.collapse-1
         variant="warning"
@@ -102,11 +102,13 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Sidebar",
   props: ["drawer"],
   data() {
     return {
+      userState: [],
       links: [
         ["mdi-microsoft-windows", "Dashboard", "/"],
         ["mdi-account-outline", "Users", "/user"],
@@ -116,6 +118,23 @@ export default {
         // ["mdi-bullhorn-variant-outline", "Report", "/report"],
       ],
     };
+  },
+
+  mounted() {
+    const token = localStorage.getItem("token");
+    const id = JSON.parse(localStorage.getItem("userState")).id;
+    // console.log(JSON.parse(localStorage.getItem("userState")));
+
+    axios
+      .get("http://localhost:8000/api/users/selOne/" + id, {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        this.userState = res.data;
+      });
   },
 };
 </script>

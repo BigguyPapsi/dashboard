@@ -219,6 +219,19 @@
           ></v-text-field>
         </v-card-title>
         <v-data-table :headers="headers" :items="getProd" :search="search">
+          <template v-slot:item.stocks="{ item }">
+            <div v-if="item.quantity != 0">
+              <p>
+                {{
+                  daysSinceLastDate(item.stocks.slice().reverse()[0].created_at)
+                }}
+                ວັນ
+              </p>
+            </div>
+            <div v-else>
+              <p>ຍັງບໍ່ມີລາຍການ stock ໃໝ່</p>
+            </div>
+          </template>
           <template v-slot:item.option="{ item }">
             <b-button
               variant="outline-primary"
@@ -362,16 +375,22 @@ export default {
 
       headers: [
         {
-          text: "name",
+          text: "ລະຫັດ",
           align: "start",
           sortable: false,
+          value: "id",
+        },
+        {
+          text: "name",
           value: "name",
         },
-        { text: "Product type", value: "product_type_name" },
+        // { text: "Product type", value: "product_type_name" },
         { text: "Quantity", value: "quantity" },
-        { text: "Unit", value: "unit" },
+        // { text: "Unit", value: "unit" },
         { text: "Price", value: "price" },
         { text: "Popular", value: "popular_icon" },
+        { text: "expiration_time", value: "expiration_time" },
+        { text: "time add - now", value: "stocks" },
         { text: "Option", value: "option" },
       ],
       getProd: [],
@@ -515,7 +534,7 @@ export default {
         .then(({ data }) => {
           // alert("saveddddd");
           // alert("ບັນທຶກຂໍ້ມູນສຳເລັດ");
-            Swal.fire({
+          Swal.fire({
             position: "center",
             icon: "success",
             title: "ບັນທຶກຂໍ້ມູນສຳເລັດ !",
@@ -526,7 +545,7 @@ export default {
             padding: "3em",
             timer: 1500,
           });
-       
+
           setTimeout(() => {
             window.location.reload();
           }, 1000);
@@ -611,6 +630,14 @@ export default {
         images: this.images,
       });
     },
+    //-----------------------------------------------------------------------------------------------//
+    daysSinceLastDate(item) {
+      const currentDate = new Date();
+      const previousDate = new Date(item);
+      const timeDifference = currentDate.getTime() - previousDate.getTime();
+      const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      return daysDifference;
+    },
   },
   mounted() {
     const token = localStorage.getItem("token");
@@ -626,7 +653,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:8000/api/product", {
+      .get("http://localhost:8000/api/new", {
         headers: {
           "ngrok-skip-browser-warning": true,
           Authorization: "Bearer " + token,
