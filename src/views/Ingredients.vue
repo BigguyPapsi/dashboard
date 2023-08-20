@@ -26,7 +26,7 @@
             </b-button>
 
             <b-form @submit.prevent="onSubmit">
-              <div class="table-responsive" style="height: 400px">
+              <div class="table-responsive" style="height: 360px">
                 <div v-for="(inputSet, index) in inputSets" :key="index">
                   <b>{{ index + 1 }} &nbsp; </b>
                   <label>
@@ -132,7 +132,7 @@
           "
         >
           <div class="card-body">
-            <div class="table-responsive" style="height: 550px">
+            <div class="table-responsive" style="height: 500px">
               <table class="table">
                 <thead>
                   <tr>
@@ -156,14 +156,14 @@
                     <td>
                       {{
                         new Date(item.created_at)
-                          .toLocaleString()
-                          .substring(0, 8)
+                          .toLocaleString("nl-NL")
+                          .substring(0, 10)
                       }}
                     </td>
                     <td>
                       {{
                         new Date(item.created_at)
-                          .toLocaleString()
+                          .toLocaleString("nl-NL")
                           .substring(21, 9)
                       }}
                     </td>
@@ -187,7 +187,7 @@
         </div>
 
         <b-modal id="modal-center" centered title="ລາຍລະອຽດ" hide-footer>
-          <div style="height: 310px" class="table-responsive">
+          <div style="height: 350px" class="table-responsive">
             <div
               style="
                 display: flex;
@@ -204,7 +204,11 @@
             >
               <div>
                 ວັນທີ:
-                {{ new Date(view.created_at).toLocaleString().substring(0, 8) }}
+                {{
+                  new Date(view.created_at)
+                    .toLocaleString("nl-NL")
+                    .substring(0, 10)
+                }}
               </div>
             </div>
 
@@ -214,7 +218,9 @@
               <div>
                 ເວລາ:
                 {{
-                  new Date(view.created_at).toLocaleString().substring(21, 9)
+                  new Date(view.created_at)
+                    .toLocaleString("nl-NL")
+                    .substring(21, 9)
                 }}
               </div>
             </div>

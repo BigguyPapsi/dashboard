@@ -62,12 +62,16 @@
                 </td>
                 <td>
                   {{
-                    new Date(item.created_at).toLocaleString().substring(0, 9)
+                    new Date(item.created_at)
+                      .toLocaleString("nl-NL")
+                      .substring(0, 10)
                   }}
                 </td>
                 <td>
                   {{
-                    new Date(item.created_at).toLocaleString().substring(22, 10)
+                    new Date(item.created_at)
+                      .toLocaleString("nl-NL")
+                      .substring(21, 9)
                   }}
                 </td>
               </tr>

@@ -104,7 +104,7 @@
                 <v-timeline-item color="green" small>
                   <strong>
                     {{
-                      new Date(item.created_at).toLocaleString().substring(0, 8)
+                      new Date(item.created_at).toLocaleString("nl-NL").substring(0, 10)
                     }}</strong
                   >
                   <div class="text-caption" style="color: green;">+ {{ item.price_total }}</div>
